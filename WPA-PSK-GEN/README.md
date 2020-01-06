@@ -4,4 +4,4 @@ PSK (Pre-Shared Key) is a client authentication method that generates unique enc
 
 # HOW to use it
 
-wpa-psk-genpy <Passphrase> <SSID>
+#### wpa-psk-genpy Passphrase SSID
