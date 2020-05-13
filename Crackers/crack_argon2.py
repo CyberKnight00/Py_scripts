@@ -14,42 +14,49 @@ def check(word):
         	cprint("{0} -> {1} ".format(hash,word),'green', attrs=['bold'])
         	print("Total time taken : {}".format(time.time() - start))
         	os._exit(1)
-	
+        else:
+            if(options.verbose): cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold'])
+
     except :
     	# For verbose outpute
-        cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold']) 
-        pass
+        if(options.verbose):
+            cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold'])
+        else:
+            pass
 
+# Start
 
 if __name__ == '__main__':
-	
-	parser = optparse.OptionParser()
-	parser.add_option('-c', '--crack', action="store", dest="argon2_hash", help="Argon2 hash to be crack")
-	parser.add_option('-w', '--wordlist', action="store", dest="wordlist", help="Wordlist for crack salted hash")
+    parser = optparse.OptionParser()
+    parser.add_option('-v', '--verbose', action="store_true", help = "Verbose = True" )
+    parser.add_option('-c', '--crack', action="store", dest="argon2_hash", help="Argon2 hash to be crack")
+    parser.add_option('-w', '--wordlist', action="store", dest="wordlist", help="Wordlist for crack salted hash")
 
-	options, args = parser.parse_args()
+    options, args = parser.parse_args()
 
-	if not options.argon2_hash:
-	    cprint("[+] Specify a Argon2 hash",'red', attrs=['bold'])
-	    cprint("[+] Example usage crack_Argon2.py -c argon2_hash -w path-of-wordlist",'yellow', attrs=['bold'])
-	    exit()
-	
-	else:
-		hash = options.argon2_hash
+    if not options.argon2_hash:
+        cprint("[+] Specify a Argon2 hash",'red', attrs=['bold'])
+        cprint("[+] Example usage crack_Argon2.py -c argon2_hash -w path-to-wordlist",'yellow', attrs=['bold'])
+        exit()
 
-	wordlist_tmp = '/usr/share/wordlists/fasttrack.txt'
+    else:
+    	hash = options.argon2_hash
 
-	if not options.wordlist :
-		wordlist = wordlist_tmp
+    wordlist_tmp = '/usr/share/wordlists/fasttrack.txt'
 
-	else:
-		wordlist = options.wordlist
+    if not options.wordlist :
+    	wordlist = wordlist_tmp
 
-	ph = PasswordHasher()
-	
-	with open (wordlist, 'r', encoding='Latin-1') as list:
-	    for word in list.read().splitlines():
-	        t = threading.Thread(target=check, args=(word,))
-	        t.start()
+    else:
+    	wordlist = options.wordlist
 
-	    cprint("plain text not found !!!",'red', attrs=['bold'])
+    ph = PasswordHasher()
+
+    with open (wordlist, 'r', encoding='Latin-1') as list:
+        for word in list.read().splitlines():
+            t = threading.Thread(target=check, args=(word,))
+            t.start()
+        else:
+            t.join()
+            cprint("plain text not found !!!\nTotal time taken : {}".format(time.time() - start),'red', attrs=['bold'])
+# End
