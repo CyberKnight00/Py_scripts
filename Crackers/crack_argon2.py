@@ -14,10 +14,7 @@ def check(word):
         	cprint("{0} -> {1} ".format(hash,word),'green', attrs=['bold'])
         	print("Total time taken : {}".format(time.time() - start))
         	os._exit(1)
-	else:
-		# For verbose output
-		cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold']) 
-        
+	
     except :
     	# For verbose outpute
         cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold']) 
