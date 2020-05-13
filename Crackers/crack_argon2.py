@@ -10,11 +10,14 @@ start = time.time()
 
 def check(word):
     try:
-        ph.verify(hash, word)
-        cprint("{0} -> {1} ".format(hash,word),'green', attrs=['bold'])
-        print("Total time taken : {}".format(time.time() - start))
-        os._exit(1)
-        os.cls()
+        if(ph.verify(hash, word) == True) :
+        	cprint("{0} -> {1} ".format(hash,word),'green', attrs=['bold'])
+        	print("Total time taken : {}".format(time.time() - start))
+        	os._exit(1)
+	else:
+		# For verbose output
+		cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold']) 
+        
     except :
     	# For verbose outpute
         cprint("{0} x-> {1} is not valid.".format(hash,word),'red', attrs=['bold']) 
@@ -47,7 +50,7 @@ if __name__ == '__main__':
 
 	ph = PasswordHasher()
 	
-	with open (wordlist) as list:
+	with open (wordlist, 'r', encoding='Latin-1') as list:
 	    for word in list.read().splitlines():
 	        t = threading.Thread(target=check, args=(word,))
 	        t.start()
